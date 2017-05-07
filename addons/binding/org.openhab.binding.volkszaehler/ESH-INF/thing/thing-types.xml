@@ -81,6 +81,10 @@
                 <label>Password</label>
                 <description>The password for sql database</description>
             </parameter>
+            <parameter name="REFRESH_INTERVAL" type="integer" required="true">
+                <label>Refresh interval</label>
+                <description>Time for autoupdate</description>
+            </parameter>
         </config-description>
     </thing-type>
 

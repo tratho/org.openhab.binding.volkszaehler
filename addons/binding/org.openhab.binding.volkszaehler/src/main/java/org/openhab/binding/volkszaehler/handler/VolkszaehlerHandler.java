@@ -9,6 +9,7 @@ package org.openhab.binding.volkszaehler.handler;
 
 import static org.openhab.binding.volkszaehler.VolkszaehlerBindingConstants.*;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
@@ -78,8 +79,8 @@ public class VolkszaehlerHandler extends BaseThingHandler implements MySQLReader
         return (String) getThing().getConfiguration().getProperties().get(DEVICE_PARAMETER_PASSWORD);
     }
 
-    long getRefreshInterval() {
-        return 5000;
+    public long getRefreshInterval() {
+        return ((BigDecimal) thing.getConfiguration().get(DEVICE_PARAMETER_REFRESH)).longValue();
     }
 
     @Override

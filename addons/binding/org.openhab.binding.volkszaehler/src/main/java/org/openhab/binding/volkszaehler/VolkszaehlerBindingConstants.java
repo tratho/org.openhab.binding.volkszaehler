@@ -26,6 +26,7 @@ public class VolkszaehlerBindingConstants {
     public static final String DEVICE_PARAMETER_DB_NAME = "DEVICE_DB_NAME";
     public static final String DEVICE_PARAMETER_USERNAME = "DEVICE_USER_NAME";
     public static final String DEVICE_PARAMETER_PASSWORD = "DEVICE_PASSWORD";
+    public static final String DEVICE_PARAMETER_REFRESH = "REFRESH_INTERVAL";
 
     // List of all Channel ids
     public static final String CHANNEL_BUFFER_TEMPERATURE_AVERAGE = "bufferTemperatureAverage";
