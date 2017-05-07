@@ -183,18 +183,21 @@ public class MySQLReader implements Runnable {
     }
 
     private void getEnergyAttic() throws SQLException, FutureErrorException, IntervalException {
+        listOfEnergyMonthAttic.clear();
         for (int i = 1; i <= 12; i++) {
             listOfEnergyMonthAttic.add(calcEnergyMonthAttic(i));
         }
     }
 
     private void getEnergyGroundfloor() throws SQLException, FutureErrorException, IntervalException {
+        listOfEnergyMonthGroundfloor.clear();
         for (int i = 1; i <= 12; i++) {
             listOfEnergyMonthGroundfloor.add(calcEnergyMonthGroundfloor(i));
         }
     }
 
     private void getGasConsumption() throws SQLException, FutureErrorException, IntervalException {
+        listOfGasConsumption.clear();
         for (int i = 1; i <= 12; i++) {
             listOfGasConsumption.add(calcGasConsumption(i));
         }
