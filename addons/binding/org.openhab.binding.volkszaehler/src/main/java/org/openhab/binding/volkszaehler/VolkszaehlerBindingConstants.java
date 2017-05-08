@@ -1,5 +1,6 @@
 /**
- * Copyright (c) 2014-2016 by the respective copyright holders.
+ * Copyright (c) 2010-2017 by the respective copyright holders.
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,7 +21,7 @@ public class VolkszaehlerBindingConstants {
     public static final String BINDING_ID = "volkszaehler";
 
     // List of all Thing Type UIDs
-    public static final ThingTypeUID THING_TYPE_SAMPLE = new ThingTypeUID(BINDING_ID, "device");
+    public static final ThingTypeUID THING_TYPE_DEVICE = new ThingTypeUID(BINDING_ID, "device");
 
     public static final String DEVICE_PARAMETER_HOST = "DEVICE_HOST";
     public static final String DEVICE_PARAMETER_DB_NAME = "DEVICE_DB_NAME";

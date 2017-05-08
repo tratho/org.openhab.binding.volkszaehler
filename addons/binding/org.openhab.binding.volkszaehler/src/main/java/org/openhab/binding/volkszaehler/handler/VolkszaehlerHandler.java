@@ -1,5 +1,6 @@
 /**
- * Copyright (c) 2014-2016 by the respective copyright holders.
+ * Copyright (c) 2010-2017 by the respective copyright holders.
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -43,6 +44,10 @@ public class VolkszaehlerHandler extends BaseThingHandler implements MySQLReader
         super(thing);
     }
 
+    @Override
+    public void handleCommand(ChannelUID channelUID, Command command) {
+    }
+
     /**
      * Returns the IP Address of this device
      *
@@ -84,23 +89,24 @@ public class VolkszaehlerHandler extends BaseThingHandler implements MySQLReader
     }
 
     @Override
-    public void handleCommand(ChannelUID channelUID, Command command) {
-    }
-
-    @Override
     public void initialize() {
-        mySqlReader = new MySQLReader(getIPAddress(), getDBName(), getUserName(), getPassword());
-        mySqlReader.addListener(this);
-        mySqlReader.setThing(thing);
         try {
-            mySqlReader.tryConnect();
-            updateStatus(ThingStatus.ONLINE);
-            scheduler.scheduleWithFixedDelay(mySqlReader, 300, getRefreshInterval(), TimeUnit.MILLISECONDS);
-        } catch (SQLException e) {
-            logger.error(thing + ": Error during opening database ", e);
+            mySqlReader = new MySQLReader(getIPAddress(), getDBName(), getUserName(), getPassword());
+            mySqlReader.addListener(this);
+            mySqlReader.setThing(thing);
+            try {
+                mySqlReader.tryConnect();
+                updateStatus(ThingStatus.ONLINE);
+                scheduler.scheduleWithFixedDelay(mySqlReader, 300, getRefreshInterval(), TimeUnit.MILLISECONDS);
+            } catch (SQLException e) {
+                logger.error(thing + ": Error during opening database");
+                updateStatus(ThingStatus.OFFLINE);
+                mySqlReader.removeListener(this);
+                mySqlReader = null;
+            }
+        } catch (ClassNotFoundException e) {
+            logger.error(thing + ": Error during loading drivers for database");
             updateStatus(ThingStatus.OFFLINE);
-            mySqlReader.removeListener(this);
-            mySqlReader = null;
         }
     }
 

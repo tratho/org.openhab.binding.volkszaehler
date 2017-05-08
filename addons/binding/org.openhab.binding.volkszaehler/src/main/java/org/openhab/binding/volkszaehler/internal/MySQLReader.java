@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2010-2017 by the respective copyright holders.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.openhab.binding.volkszaehler.internal;
 
 import java.sql.Connection;
@@ -45,7 +53,7 @@ public class MySQLReader implements Runnable {
 
     private ArrayList<Double> listOfGasConsumption;
 
-    public MySQLReader(String host, String dbName, String user, String password) {
+    public MySQLReader(String host, String dbName, String user, String password) throws ClassNotFoundException {
         this.host = host;
         this.dbName = dbName;
         this.user = user;
@@ -55,12 +63,7 @@ public class MySQLReader implements Runnable {
         this.listOfEnergyMonthGroundfloor = new ArrayList<Double>();
         this.listOfGasConsumption = new ArrayList<Double>();
 
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        Class.forName("com.mysql.jdbc.Driver");
     }
 
     public void setThing(Thing thing) {
