@@ -8,6 +8,11 @@
  */
 package org.openhab.binding.volkszaehler.internal;
 
+/**
+ * The {@link Converter}
+ *
+ * @author Thomas Traunbauer - Initial contribution
+ */
 public class Converter {
 
     public static Time seconds_to_Time(long value) {

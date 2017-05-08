@@ -10,6 +10,11 @@ package org.openhab.binding.volkszaehler.internal;
 
 import java.util.Calendar;
 
+/**
+ * The {@link Time}
+ *
+ * @author Thomas Traunbauer - Initial contribution
+ */
 public class Time {
     private long timeInMilliseconds;
 

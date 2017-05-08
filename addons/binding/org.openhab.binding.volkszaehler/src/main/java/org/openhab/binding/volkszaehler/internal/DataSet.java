@@ -11,6 +11,11 @@ package org.openhab.binding.volkszaehler.internal;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * The {@link DataSet}
+ *
+ * @author Thomas Traunbauer - Initial contribution
+ */
 public class DataSet {
     private SplineInterpolation spline;
 

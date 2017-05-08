@@ -11,8 +11,9 @@ package org.openhab.binding.volkszaehler.internal;
 import java.util.ArrayList;
 
 /**
- * Performs spline interpolation given a set of control points.
+ * The {@link SplineInterpolation} Performs spline interpolation given a set of control points.
  *
+ * @author Thomas Traunbauer - Initial contribution
  */
 public class SplineInterpolation {
 

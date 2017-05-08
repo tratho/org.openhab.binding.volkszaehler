@@ -8,6 +8,11 @@
  */
 package org.openhab.binding.volkszaehler.internal;
 
+/**
+ * The {@link FutureErrorException}
+ *
+ * @author Thomas Traunbauer - Initial contribution
+ */
 public class FutureErrorException extends Exception {
     private static final long serialVersionUID = 1L;
 

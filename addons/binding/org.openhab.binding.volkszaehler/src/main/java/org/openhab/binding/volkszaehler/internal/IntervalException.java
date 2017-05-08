@@ -8,6 +8,11 @@
  */
 package org.openhab.binding.volkszaehler.internal;
 
+/**
+ * The {@link IntervalException}
+ *
+ * @author Thomas Traunbauer - Initial contribution
+ */
 public class IntervalException extends Exception {
     private static final long serialVersionUID = 1L;
 

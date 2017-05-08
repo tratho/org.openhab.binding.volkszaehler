@@ -8,6 +8,11 @@
  */
 package org.openhab.binding.volkszaehler.internal;
 
+/**
+ * The {@link MySQLReaderListener}
+ *
+ * @author Thomas Traunbauer - Initial contribution
+ */
 public interface MySQLReaderListener {
 
     void getUpdate();

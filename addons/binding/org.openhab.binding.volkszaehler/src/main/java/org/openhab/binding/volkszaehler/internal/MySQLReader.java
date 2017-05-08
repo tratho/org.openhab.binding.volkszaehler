@@ -20,6 +20,11 @@ import org.eclipse.smarthome.core.library.types.OnOffType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The {@link MySQLReader}
+ *
+ * @author Thomas Traunbauer - Initial contribution
+ */
 public class MySQLReader implements Runnable {
 
     private Logger logger = LoggerFactory.getLogger(MySQLReader.class);
