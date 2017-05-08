@@ -9,12 +9,12 @@
 package org.openhab.binding.volkszaehler.internal;
 
 /**
- * The {@link MySQLReaderListener}
+ * The {@link SQLReaderListener}
  *
  * @author Thomas Traunbauer - Initial contribution
  */
-public interface MySQLReaderListener {
+public interface SQLReaderListener {
 
-    void getUpdate();
+    void refreshValues();
 
 }

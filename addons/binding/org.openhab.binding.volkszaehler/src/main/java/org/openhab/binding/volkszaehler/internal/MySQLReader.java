@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import org.eclipse.smarthome.core.library.types.DecimalType;
@@ -25,16 +24,17 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Traunbauer - Initial contribution
  */
-public class MySQLReader implements Runnable {
+public class MySQLReader implements Runnable, SQLReader {
 
     private Logger logger = LoggerFactory.getLogger(MySQLReader.class);
 
-    private Connection connection;
     private String host;
     private String dbName;
     private String user;
     private String password;
-    private ArrayList<MySQLReaderListener> listOfListener;
+    private ArrayList<SQLReaderListener> listOfListener;
+
+    private Connection connection;
 
     private Double bufferTemperatureAverage;
     private Double bufferTemperatureBottom;
@@ -55,12 +55,13 @@ public class MySQLReader implements Runnable {
 
     private ArrayList<Double> listOfGasConsumption;
 
-    public MySQLReader(String host, String dbName, String user, String password) throws ClassNotFoundException {
+    public MySQLReader(String host, String dbName, String user, String password)
+            throws ClassNotFoundException, SQLException {
         this.host = host;
         this.dbName = dbName;
         this.user = user;
         this.password = password;
-        this.listOfListener = new ArrayList<MySQLReaderListener>();
+        this.listOfListener = new ArrayList<SQLReaderListener>();
         this.listOfEnergyMonthAttic = new ArrayList<Double>();
         this.listOfEnergyMonthGroundfloor = new ArrayList<Double>();
         this.listOfGasConsumption = new ArrayList<Double>();
@@ -68,38 +69,48 @@ public class MySQLReader implements Runnable {
         Class.forName("com.mysql.jdbc.Driver");
     }
 
-    public void open() throws SQLException {
-        String url = "jdbc:mysql://" + host + "/" + dbName;
-        connection = DriverManager.getConnection(url, user, password);
-    }
-
-    public void close() throws SQLException {
-        connection.close();
-    }
-
-    public ResultSet getResultSet(String sql) throws SQLException {
-        Statement stmt = connection.createStatement();
-        return stmt.executeQuery(sql);
-    }
-
     @Override
     public void run() {
         try {
-            getCurrent();
-            getEnergyAttic();
-            getEnergyGroundfloor();
-            getGasConsumption();
+            pullCurrent();
         } catch (SQLException e) {
-            logger.warn("Error during operation on database ", e);
-        } catch (FutureErrorException e) {
-            logger.warn("Error during operation on database ", e);
-        } catch (IntervalException e) {
-            logger.warn("Error during operation on database ", e);
+            logger.warn("Error during reading values form database");
+        }
+        try {
+            pullEnergyAttic();
+        } catch (SQLException | FutureErrorException | IntervalException e) {
+            logger.warn("Error during reading values form database");
+        }
+        try {
+            pullEnergyGroundfloor();
+        } catch (SQLException | FutureErrorException | IntervalException e) {
+            logger.warn("Error during reading values form database");
+        }
+        try {
+            pullGasConsumption();
+        } catch (SQLException e) {
+            logger.warn("Error during reading values form database");
         }
         callAllListener();
     }
 
-    public void removeListener(MySQLReaderListener listener) {
+    @Override
+    public void open() throws SQLException {
+        connection = DriverManager.getConnection("jdbc:mysql://" + host + "/" + dbName, user, password);
+    }
+
+    @Override
+    public void close() throws SQLException {
+        connection.close();
+    }
+
+    @Override
+    public ResultSet getResultSet(String sql) throws SQLException {
+        return connection.createStatement().executeQuery(sql);
+    }
+
+    @Override
+    public void removeListener(SQLReaderListener listener) {
         for (int i = 0; i < listOfListener.size(); i++) {
             if (listOfListener.get(i) == listener) {
                 listOfListener.remove(i);
@@ -108,23 +119,19 @@ public class MySQLReader implements Runnable {
         listOfListener.add(listener);
     }
 
-    public void addListener(MySQLReaderListener listener) {
+    @Override
+    public void addListener(SQLReaderListener listener) {
         listOfListener.add(listener);
     }
 
+    @Override
     public void callAllListener() {
-        for (int i = 0; i < listOfListener.size(); i++) {
-            listOfListener.get(i).getUpdate();
+        for (SQLReaderListener listener : listOfListener) {
+            listener.refreshValues();
         }
     }
 
-    public void tryConnect() throws SQLException {
-        open();
-        close();
-    }
-
-    private void getCurrent() throws SQLException {
-        open();
+    private void pullCurrent() throws SQLException {
         ResultSet resultSet;
 
         resultSet = getResultSet("SELECT value FROM data WHERE channel_id=19 ORDER BY id DESC LIMIT 1");
@@ -179,25 +186,23 @@ public class MySQLReader implements Runnable {
         gasConsumption = resultSet.getDouble("value");
         gastothermRunning = gasConsumption > 0.0;
         resultSet.close();
-
-        close();
     }
 
-    private void getEnergyAttic() throws SQLException, FutureErrorException, IntervalException {
+    private void pullEnergyAttic() throws SQLException, FutureErrorException, IntervalException {
         listOfEnergyMonthAttic.clear();
         for (int i = 1; i <= 12; i++) {
             listOfEnergyMonthAttic.add(calcEnergyMonthAttic(i));
         }
     }
 
-    private void getEnergyGroundfloor() throws SQLException, FutureErrorException, IntervalException {
+    private void pullEnergyGroundfloor() throws SQLException, FutureErrorException, IntervalException {
         listOfEnergyMonthGroundfloor.clear();
         for (int i = 1; i <= 12; i++) {
             listOfEnergyMonthGroundfloor.add(calcEnergyMonthGroundfloor(i));
         }
     }
 
-    private void getGasConsumption() throws SQLException, FutureErrorException, IntervalException {
+    private void pullGasConsumption() throws SQLException {
         listOfGasConsumption.clear();
         for (int i = 1; i <= 12; i++) {
             listOfGasConsumption.add(calcGasConsumption(i));
@@ -212,16 +217,38 @@ public class MySQLReader implements Runnable {
         return calcEnergyMonth(13, month);
     }
 
-    private double calcGasConsumption(int month) throws SQLException, FutureErrorException, IntervalException {
-        return calcGasConsumptionMonth(48, month);
+    private double calcGasConsumption(int month) throws SQLException {
+        Time startTimeForSQL = Time.getFirstOfMonth(month);
+        Time endTimeForSQL = Time.getLastOfMonth(month);
+
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("SELECT value,timestamp FROM data WHERE channel_id=");
+        buffer.append(48);
+        buffer.append(" AND timestamp>");
+        buffer.append(startTimeForSQL.getTimeInMillis());
+        buffer.append(" AND timestamp<");
+        buffer.append(endTimeForSQL.getTimeInMillis());
+        ResultSet resultSet = getResultSet(buffer.toString());
+
+        DataSet dataSet = new DataSet();
+        while (resultSet.next()) {
+            long timestamp = resultSet.getLong("timestamp");
+            Double power = resultSet.getDouble("value");
+
+            dataSet.addData(new Time(timestamp), power);
+        }
+        resultSet.close();
+
+        double gas = 0;
+        for (int timeStep = 0; timeStep < dataSet.getNumberofOriginalValues(); ++timeStep) {
+            gas = gas + dataSet.getOriginalValue(timeStep);
+        }
+        gas = gas / 10;
+        return gas;
     }
 
     private double calcEnergyMonth(int channelID, int month)
             throws SQLException, FutureErrorException, IntervalException {
-        open();
-
-        // Time startTimeForSQL = new Time(new Time().getYear(), month - 1, 28, 0, 0, 0);
-        // Time endTimeForSQL = new Time(new Time().getYear(), month + 1, 2, 0, 0, 0);
         Time startTimeForSQL = Time.getFirstOfMonth(month);
         Time endTimeForSQL = Time.getLastOfMonth(month);
 
@@ -242,7 +269,6 @@ public class MySQLReader implements Runnable {
             dataSet.addData(new Time(timestamp), power);
         }
         resultSet.close();
-        connection.close();
 
         dataSet.generateInterpolatedData(Time.getFirstOfMonth(month), Time.getLastOfMonth(month));
 
@@ -253,40 +279,6 @@ public class MySQLReader implements Runnable {
         energy = energy / 60;
         energy = energy / 1000;
         return energy;
-    }
-
-    private double calcGasConsumptionMonth(int channelID, int month)
-            throws SQLException, FutureErrorException, IntervalException {
-        open();
-
-        Time startTimeForSQL = Time.getFirstOfMonth(month);
-        Time endTimeForSQL = Time.getLastOfMonth(month);
-
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("SELECT value,timestamp FROM data WHERE channel_id=");
-        buffer.append(channelID);
-        buffer.append(" AND timestamp>");
-        buffer.append(startTimeForSQL.getTimeInMillis());
-        buffer.append(" AND timestamp<");
-        buffer.append(endTimeForSQL.getTimeInMillis());
-        ResultSet resultSet = getResultSet(buffer.toString());
-
-        DataSet dataSet = new DataSet();
-        while (resultSet.next()) {
-            long timestamp = resultSet.getLong("timestamp");
-            Double power = resultSet.getDouble("value");
-
-            dataSet.addData(new Time(timestamp), power);
-        }
-        resultSet.close();
-        connection.close();
-
-        double gas = 0;
-        for (int timeStep = 0; timeStep < dataSet.getNumberofOriginalValues(); ++timeStep) {
-            gas = gas + dataSet.getOriginalValue(timeStep);
-        }
-        gas = gas / 10;
-        return gas;
     }
 
     public DecimalType getBufferTemperatureAverage() {

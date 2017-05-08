@@ -14,17 +14,13 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.smarthome.core.thing.Channel;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandler;
-import org.eclipse.smarthome.core.thing.binding.ThingFactory;
-import org.eclipse.smarthome.core.thing.type.TypeResolver;
 import org.eclipse.smarthome.core.types.Command;
-import org.eclipse.smarthome.core.types.State;
 import org.openhab.binding.volkszaehler.internal.MySQLReader;
-import org.openhab.binding.volkszaehler.internal.MySQLReaderListener;
+import org.openhab.binding.volkszaehler.internal.SQLReaderListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +30,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Traunbauer - Initial contribution
  */
-public class VolkszaehlerHandler extends BaseThingHandler implements MySQLReaderListener {
+public class VolkszaehlerHandler extends BaseThingHandler implements SQLReaderListener {
 
     private Logger logger = LoggerFactory.getLogger(VolkszaehlerHandler.class);
 
@@ -42,10 +38,6 @@ public class VolkszaehlerHandler extends BaseThingHandler implements MySQLReader
 
     public VolkszaehlerHandler(Thing thing) {
         super(thing);
-    }
-
-    @Override
-    public void handleCommand(ChannelUID channelUID, Command command) {
     }
 
     /**
@@ -85,7 +77,22 @@ public class VolkszaehlerHandler extends BaseThingHandler implements MySQLReader
     }
 
     public long getRefreshInterval() {
-        return ((BigDecimal) thing.getConfiguration().get(DEVICE_PARAMETER_REFRESH)).longValue();
+        long timeInMintues = ((BigDecimal) thing.getConfiguration().get(DEVICE_PARAMETER_REFRESH)).longValue();
+        long timeInSeconds = timeInMintues * 60;
+        return timeInSeconds;
+    }
+
+    @Override
+    public void dispose() {
+        try {
+            mySqlReader.close();
+        } catch (SQLException e1) {
+        }
+        super.dispose();
+    }
+
+    @Override
+    public void handleCommand(ChannelUID channelUID, Command command) {
     }
 
     @Override
@@ -93,41 +100,32 @@ public class VolkszaehlerHandler extends BaseThingHandler implements MySQLReader
         try {
             mySqlReader = new MySQLReader(getIPAddress(), getDBName(), getUserName(), getPassword());
             mySqlReader.addListener(this);
-            try {
-                mySqlReader.tryConnect();
-                updateStatus(ThingStatus.ONLINE);
-                scheduler.scheduleWithFixedDelay(mySqlReader, 300, getRefreshInterval(), TimeUnit.MILLISECONDS);
-            } catch (SQLException e) {
-                logger.error("Error during opening database");
-                updateStatus(ThingStatus.OFFLINE);
-                mySqlReader.removeListener(this);
-                mySqlReader = null;
-            }
+            mySqlReader.open();
+            scheduler.scheduleWithFixedDelay(mySqlReader, 1, getRefreshInterval(), TimeUnit.SECONDS);
+            updateStatus(ThingStatus.ONLINE);
         } catch (ClassNotFoundException e) {
             logger.error("Error during loading drivers for database");
+            mySqlReader.removeListener(this);
+            try {
+                mySqlReader.close();
+            } catch (SQLException e1) {
+            }
+            mySqlReader = null;
+            updateStatus(ThingStatus.OFFLINE);
+        } catch (SQLException e) {
+            logger.error("Error during opening database");
+            mySqlReader.removeListener(this);
+            try {
+                mySqlReader.close();
+            } catch (SQLException e1) {
+            }
+            mySqlReader = null;
             updateStatus(ThingStatus.OFFLINE);
         }
     }
 
-    private ChannelUID getChannelUID(String channelId) {
-        Channel channel = thing.getChannel(channelId);
-        if (channel == null) {
-            // refresh thing...
-            Thing newThing = ThingFactory.createThing(TypeResolver.resolve(thing.getThingTypeUID()), thing.getUID(),
-                    thing.getConfiguration());
-            updateThing(newThing);
-            channel = thing.getChannel(channelId);
-        }
-        return channel.getUID();
-    }
-
     @Override
-    protected void updateState(String id, State state) {
-        super.updateState(getChannelUID(id), state);
-    }
-
-    @Override
-    public void getUpdate() {
+    public void refreshValues() {
         updateState(CHANNEL_BUFFER_TEMPERATURE_AVERAGE, mySqlReader.getBufferTemperatureAverage());
         updateState(CHANNEL_BUFFER_TEMPERATURE_BOTTOM, mySqlReader.getBufferTemperatureBottom());
         updateState(CHANNEL_BUFFER_TEMPERATURE_MIDDLE, mySqlReader.getBufferTemperatureMiddle());
