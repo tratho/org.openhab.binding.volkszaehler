@@ -93,19 +93,18 @@ public class VolkszaehlerHandler extends BaseThingHandler implements MySQLReader
         try {
             mySqlReader = new MySQLReader(getIPAddress(), getDBName(), getUserName(), getPassword());
             mySqlReader.addListener(this);
-            mySqlReader.setThing(thing);
             try {
                 mySqlReader.tryConnect();
                 updateStatus(ThingStatus.ONLINE);
                 scheduler.scheduleWithFixedDelay(mySqlReader, 300, getRefreshInterval(), TimeUnit.MILLISECONDS);
             } catch (SQLException e) {
-                logger.error(thing + ": Error during opening database");
+                logger.error("Error during opening database");
                 updateStatus(ThingStatus.OFFLINE);
                 mySqlReader.removeListener(this);
                 mySqlReader = null;
             }
         } catch (ClassNotFoundException e) {
-            logger.error(thing + ": Error during loading drivers for database");
+            logger.error("Error during loading drivers for database");
             updateStatus(ThingStatus.OFFLINE);
         }
     }

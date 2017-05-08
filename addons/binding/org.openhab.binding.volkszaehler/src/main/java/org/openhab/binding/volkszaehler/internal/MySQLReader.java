@@ -17,15 +17,12 @@ import java.util.ArrayList;
 
 import org.eclipse.smarthome.core.library.types.DecimalType;
 import org.eclipse.smarthome.core.library.types.OnOffType;
-import org.eclipse.smarthome.core.thing.Thing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MySQLReader implements Runnable {
 
     private Logger logger = LoggerFactory.getLogger(MySQLReader.class);
-
-    private Thing thing;
 
     private Connection connection;
     private String host;
@@ -66,10 +63,6 @@ public class MySQLReader implements Runnable {
         Class.forName("com.mysql.jdbc.Driver");
     }
 
-    public void setThing(Thing thing) {
-        this.thing = thing;
-    }
-
     public void open() throws SQLException {
         String url = "jdbc:mysql://" + host + "/" + dbName;
         connection = DriverManager.getConnection(url, user, password);
@@ -92,11 +85,11 @@ public class MySQLReader implements Runnable {
             getEnergyGroundfloor();
             getGasConsumption();
         } catch (SQLException e) {
-            logger.warn(thing + ": Error during operation on database ", e);
+            logger.warn("Error during operation on database ", e);
         } catch (FutureErrorException e) {
-            logger.warn(thing + ": Error during operation on database ", e);
+            logger.warn("Error during operation on database ", e);
         } catch (IntervalException e) {
-            logger.warn(thing + ": Error during operation on database ", e);
+            logger.warn("Error during operation on database ", e);
         }
         callAllListener();
     }
