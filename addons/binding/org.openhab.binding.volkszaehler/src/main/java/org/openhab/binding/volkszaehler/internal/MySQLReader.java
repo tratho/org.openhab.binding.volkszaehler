@@ -57,8 +57,7 @@ public class MySQLReader implements Runnable, SQLReader {
 
     private ArrayList<State> listOfGasConsumption;
 
-    public MySQLReader(String host, String dbName, String user, String password)
-            throws ClassNotFoundException, SQLException {
+    public MySQLReader(String host, String dbName, String user, String password) throws ClassNotFoundException {
         this.host = host;
         this.dbName = dbName;
         this.user = user;
@@ -73,37 +72,7 @@ public class MySQLReader implements Runnable, SQLReader {
 
     @Override
     public void run() {
-        try {
-            pullCurrent();
-        } catch (SQLException e) {
-            logger.warn("Error during reading values form database");
-        }
-        try {
-            pullEnergyAttic();
-        } catch (SQLException | FutureErrorException | IntervalException e) {
-            logger.warn("Error during reading values form database");
-        }
-        try {
-            pullEnergyGroundfloor();
-        } catch (SQLException | FutureErrorException | IntervalException e) {
-            logger.warn("Error during reading values form database");
-        }
-        try {
-            pullGasConsumption();
-        } catch (SQLException e) {
-            logger.warn("Error during reading values form database");
-        }
         callAllListener();
-    }
-
-    @Override
-    public void open() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:mysql://" + host + "/" + dbName, user, password);
-    }
-
-    @Override
-    public void close() throws SQLException {
-        connection.close();
     }
 
     @Override
@@ -128,9 +97,43 @@ public class MySQLReader implements Runnable, SQLReader {
 
     @Override
     public void callAllListener() {
-        for (SQLReaderListener listener : listOfListener) {
-            listener.refreshValues();
+        try {
+            open();
+            try {
+                pullCurrent();
+            } catch (SQLException e) {
+                logger.warn("Error during reading values form database");
+            }
+            try {
+                pullEnergyAttic();
+            } catch (SQLException | FutureErrorException | IntervalException e) {
+                logger.warn("Error during reading values form database");
+            }
+            try {
+                pullEnergyGroundfloor();
+            } catch (SQLException | FutureErrorException | IntervalException e) {
+                logger.warn("Error during reading values form database");
+            }
+            try {
+                pullGasConsumption();
+            } catch (SQLException e) {
+                logger.warn("Error during reading values form database");
+            }
+            close();
+            for (SQLReaderListener listener : listOfListener) {
+                listener.refreshValues();
+            }
+        } catch (SQLException e) {
+            logger.warn("Error during opening/closing database");
         }
+    }
+
+    private void open() throws SQLException {
+        connection = DriverManager.getConnection("jdbc:mysql://" + host + "/" + dbName, user, password);
+    }
+
+    private void close() throws SQLException {
+        connection.close();
     }
 
     private void pullCurrent() throws SQLException {

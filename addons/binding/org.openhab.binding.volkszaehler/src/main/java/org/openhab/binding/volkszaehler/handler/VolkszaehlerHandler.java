@@ -11,7 +11,6 @@ package org.openhab.binding.volkszaehler.handler;
 import static org.openhab.binding.volkszaehler.VolkszaehlerBindingConstants.*;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.smarthome.core.thing.ChannelUID;
@@ -83,15 +82,6 @@ public class VolkszaehlerHandler extends BaseThingHandler implements SQLReaderLi
     }
 
     @Override
-    public void dispose() {
-        try {
-            mySqlReader.close();
-        } catch (SQLException e1) {
-        }
-        super.dispose();
-    }
-
-    @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
     }
 
@@ -100,25 +90,11 @@ public class VolkszaehlerHandler extends BaseThingHandler implements SQLReaderLi
         try {
             mySqlReader = new MySQLReader(getIPAddress(), getDBName(), getUserName(), getPassword());
             mySqlReader.addListener(this);
-            mySqlReader.open();
             scheduler.scheduleWithFixedDelay(mySqlReader, 1, getRefreshInterval(), TimeUnit.SECONDS);
             updateStatus(ThingStatus.ONLINE);
         } catch (ClassNotFoundException e) {
             logger.error("Error during loading drivers for database");
             mySqlReader.removeListener(this);
-            try {
-                mySqlReader.close();
-            } catch (SQLException e1) {
-            }
-            mySqlReader = null;
-            updateStatus(ThingStatus.OFFLINE);
-        } catch (SQLException e) {
-            logger.error("Error during opening database");
-            mySqlReader.removeListener(this);
-            try {
-                mySqlReader.close();
-            } catch (SQLException e1) {
-            }
             mySqlReader = null;
             updateStatus(ThingStatus.OFFLINE);
         }
