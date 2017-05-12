@@ -97,6 +97,7 @@ public class MySQLReader implements Runnable, SQLReader {
 
     @Override
     public void callAllListener() {
+        logger.debug("callAllListener()");
         try {
             open();
             try {
@@ -302,113 +303,125 @@ public class MySQLReader implements Runnable, SQLReader {
 
     public State getBufferTemperatureAverage() {
         if (bufferTemperatureAverage != null) {
-            return new DecimalType(bufferTemperatureAverage);
+            double value = Utility.round(bufferTemperatureAverage);
+            return new DecimalType(value);
         }
         return UnDefType.NULL;
     }
 
     public State getBufferTemperatureBottom() {
         if (bufferTemperatureBottom != null) {
-            return new DecimalType(bufferTemperatureBottom);
+            double value = Utility.round(bufferTemperatureBottom);
+            return new DecimalType(value);
         }
         return UnDefType.NULL;
     }
 
     public State getBufferTemperatureMiddle() {
         if (bufferTemperatureMiddle != null) {
-            return new DecimalType(bufferTemperatureMiddle);
+            double value = Utility.round(bufferTemperatureMiddle);
+            return new DecimalType(value);
         }
         return UnDefType.NULL;
     }
 
     public State getBufferTemperatureTop() {
         if (bufferTemperatureTop != null) {
-            return new DecimalType(bufferTemperatureTop);
+            double value = Utility.round(bufferTemperatureTop);
+            return new DecimalType(value);
         }
         return UnDefType.NULL;
     }
 
     public State getHotWaterTemperature() {
         if (hotWaterTemperature != null) {
-            return new DecimalType(hotWaterTemperature);
+            double value = Utility.round(hotWaterTemperature);
+            return new DecimalType(value);
         }
         return UnDefType.NULL;
     }
 
     public State getCurrentPowerAttic() {
         if (currentPowerAttic != null) {
-            return new DecimalType(currentPowerAttic);
+            double value = Utility.round(currentPowerAttic);
+            return new DecimalType(value);
         }
         return UnDefType.NULL;
     }
 
     public State getCurrentPowerGroundfloor() {
         if (currentPowerGroundfloor != null) {
-            return new DecimalType(currentPowerGroundfloor);
+            double value = Utility.round(currentPowerGroundfloor);
+            return new DecimalType(value);
         }
         return UnDefType.NULL;
     }
 
     public State getCurrentPowerPV() {
         if (currentPowerPV != null) {
-            return new DecimalType(currentPowerPV);
+            double value = Utility.round(currentPowerPV);
+            return new DecimalType(value);
         }
         return UnDefType.NULL;
     }
 
     public State getCurrentPowerBuy() {
         if (currentPowerBuy != null) {
-            return new DecimalType(currentPowerBuy);
+            double value = Utility.round(currentPowerBuy);
+            return new DecimalType(value);
         }
         return UnDefType.NULL;
     }
 
     public State getCurrentPowerSell() {
         if (currentPowerSell != null) {
-            return new DecimalType(currentPowerSell);
+            double value = Utility.round(currentPowerSell);
+            return new DecimalType(value);
         }
         return UnDefType.NULL;
     }
 
     public State getCurrentPowerTotal() {
         if ((currentPowerAttic != null) || (currentPowerGroundfloor != null)) {
-            return new DecimalType(currentPowerAttic + currentPowerGroundfloor);
+            double value = Utility.round(currentPowerAttic + currentPowerGroundfloor);
+            return new DecimalType(value);
+        }
+        return UnDefType.NULL;
+    }
+
+    public State getGasConsumptionCurrent() {
+        if (gasConsumption != null) {
+            double value = Utility.round(gasConsumption);
+            return new DecimalType(value);
         }
         return UnDefType.NULL;
     }
 
     public State getEnergyCurrentMonthAttic() {
-        int index = new Time().getMonth() - 1;
-        return listOfEnergyMonthAttic.get(index);
+        return getEnergyMonthAttic(new Time().getMonth() - 1);
     }
 
     public State getEnergyCurrentMonthGroundfloor() {
-        int index = new Time().getMonth() - 1;
-        return listOfEnergyMonthGroundfloor.get(index);
+        return getEnergyMonthGroundfloor(new Time().getMonth() - 1);
     }
 
     public State getGasConsumptionCurrentMonth() {
-        int index = new Time().getMonth() - 1;
-        if (listOfGasConsumption.size() > index + 1) {
-            return listOfGasConsumption.get(index);
-        }
-        return UnDefType.NULL;
+        return getGasConsumptionMonth(new Time().getMonth() - 1);
     }
 
     public State getEnergyCurrentYearAttic() {
         boolean checker = false;
         double energy = 0;
         for (int i = 0; i < 12; i++) {
-            if (listOfEnergyMonthAttic.size() > i + 1) {
-                State currentMonth = listOfEnergyMonthAttic.get(i);
-                if (currentMonth instanceof DecimalType) {
-                    energy += ((DecimalType) currentMonth).doubleValue();
-                    checker = true;
-                }
+            State currentMonth = listOfEnergyMonthAttic.get(i);
+            if (currentMonth instanceof DecimalType) {
+                energy += ((DecimalType) currentMonth).doubleValue();
+                checker = true;
             }
         }
         if (checker) {
-            return new DecimalType(energy);
+            double value = Utility.round(energy);
+            return new DecimalType(value);
         } else {
             return UnDefType.NULL;
         }
@@ -427,7 +440,8 @@ public class MySQLReader implements Runnable, SQLReader {
             }
         }
         if (checker) {
-            return new DecimalType(energy);
+            double value = Utility.round(energy);
+            return new DecimalType(value);
         } else {
             return UnDefType.NULL;
         }
@@ -446,7 +460,8 @@ public class MySQLReader implements Runnable, SQLReader {
             }
         }
         if (checker) {
-            return new DecimalType(gas);
+            double value = Utility.round(gas);
+            return new DecimalType(value);
         } else {
             return UnDefType.NULL;
         }
@@ -456,7 +471,9 @@ public class MySQLReader implements Runnable, SQLReader {
         double energyYear = ((DecimalType) getEnergyCurrentYearAttic()).doubleValue()
                 + ((DecimalType) getEnergyCurrentYearGroundfloor()).doubleValue();
         if (energyYear > 0) {
-            return new DecimalType((((DecimalType) getEnergyCurrentYearAttic()).doubleValue() / energyYear) * 100);
+            double value = Utility
+                    .round((((DecimalType) getEnergyCurrentYearAttic()).doubleValue() / energyYear) * 100);
+            return new DecimalType(value);
         }
         return UnDefType.NULL;
     }
@@ -465,23 +482,36 @@ public class MySQLReader implements Runnable, SQLReader {
         double energyYear = ((DecimalType) getEnergyCurrentYearAttic()).doubleValue()
                 + ((DecimalType) getEnergyCurrentYearGroundfloor()).doubleValue();
         if (energyYear > 0) {
-            return new DecimalType(
-                    (((DecimalType) getEnergyCurrentYearGroundfloor()).doubleValue() / energyYear) * 100);
+            double value = Utility
+                    .round((((DecimalType) getEnergyCurrentYearGroundfloor()).doubleValue() / energyYear) * 100);
+            return new DecimalType(value);
         }
         return UnDefType.NULL;
     }
 
     public State getEnergyMonthAttic(int month) {
-        return listOfEnergyMonthAttic.get(month - 1);
+        int index = month - 1;
+        if (listOfEnergyMonthAttic.get(index) instanceof DecimalType) {
+            double value = Utility.round(((DecimalType) listOfEnergyMonthAttic.get(index)).doubleValue());
+            return new DecimalType(value);
+        }
+        return UnDefType.NULL;
     }
 
     public State getEnergyMonthGroundfloor(int month) {
-        return listOfEnergyMonthGroundfloor.get(month - 1);
+        int index = month - 1;
+        if (listOfEnergyMonthGroundfloor.get(index) instanceof DecimalType) {
+            double value = Utility.round(((DecimalType) listOfEnergyMonthGroundfloor.get(index)).doubleValue());
+            return new DecimalType(value);
+        }
+        return UnDefType.NULL;
     }
 
-    public State getGasConsumptionCurrent() {
-        if (gasConsumption != null) {
-            return new DecimalType(gasConsumption);
+    public State getGasConsumptionMonth(int month) {
+        int index = month - 1;
+        if (listOfGasConsumption.get(index) instanceof DecimalType) {
+            double value = Utility.round(((DecimalType) listOfGasConsumption.get(index)).doubleValue());
+            return new DecimalType(value);
         }
         return UnDefType.NULL;
     }
