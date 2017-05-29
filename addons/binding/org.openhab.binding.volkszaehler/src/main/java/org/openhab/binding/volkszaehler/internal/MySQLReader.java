@@ -351,34 +351,10 @@ public class MySQLReader implements Runnable, SQLReader {
                 listOfEnergyMonthAttic.add(null);
             }
         }
-
         energyAttic = new Energy(listOfEnergyMonthAttic);
     }
 
     private void pullEnergyGroundfloor() {
-        ResultSet resultSet;
-
-        Double currentPowerGroundfloor = null;
-        try {
-            resultSet = getResultSet("SELECT value FROM data WHERE channel_id=13 ORDER BY id DESC LIMIT 1");
-        } catch (SQLException e) {
-            resultSet = null;
-        }
-        if (resultSet != null) {
-            try {
-                resultSet.next();
-                currentPowerGroundfloor = resultSet.getDouble("value");
-                resultSet.close();
-            } catch (SQLException e) {
-                currentPowerGroundfloor = null;
-                try {
-                    resultSet.close();
-                } catch (SQLException e1) {
-                    resultSet = null;
-                }
-            }
-        }
-
         List<Double> listOfEnergyMonthGroundfloor = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
             try {
@@ -387,16 +363,17 @@ public class MySQLReader implements Runnable, SQLReader {
                 listOfEnergyMonthGroundfloor.add(null);
             }
         }
-
         energyGroundfloor = new Energy(listOfEnergyMonthGroundfloor);
     }
 
     private Double calcEnergyMonthAttic(int month) throws SQLException, FutureErrorException, IntervalException {
-        return calcEnergyMonth(10, month);
+        int channelNumberOnSQLServer = 10;
+        return calcEnergyMonth(channelNumberOnSQLServer, month);
     }
 
     private Double calcEnergyMonthGroundfloor(int month) throws SQLException, FutureErrorException, IntervalException {
-        return calcEnergyMonth(13, month);
+        int channelNumberOnSQLServer = 13;
+        return calcEnergyMonth(channelNumberOnSQLServer, month);
     }
 
     private Double calcGasConsumption(int month) throws SQLException {
@@ -472,26 +449,4 @@ public class MySQLReader implements Runnable, SQLReader {
         }
         return energy;
     }
-
-    // public State getEnergyPercentageShareYearAttic() {
-    // double energyYear = ((DecimalType) energyAttic.getEnergyCurrentYear()).doubleValue()
-    // + ((DecimalType) energyGroundfloor.getEnergyCurrentYear()).doubleValue();
-    // if (energyYear > 0) {
-    // double value = Utility
-    // .round((((DecimalType) energyAttic.getEnergyCurrentYear()).doubleValue() / energyYear) * 100);
-    // return new DecimalType(value);
-    // }
-    // return UnDefType.NULL;
-    // }
-    //
-    // public State getEnergyPercentageShareYearGroundfloor() {
-    // double energyYear = ((DecimalType) energyAttic.getEnergyCurrentYear()).doubleValue()
-    // + ((DecimalType) energyGroundfloor.getEnergyCurrentYear()).doubleValue();
-    // if (energyYear > 0) {
-    // double value = Utility
-    // .round((((DecimalType) energyGroundfloor.getEnergyCurrentYear()).doubleValue() / energyYear) * 100);
-    // return new DecimalType(value);
-    // }
-    // return UnDefType.NULL;
-    // }
 }

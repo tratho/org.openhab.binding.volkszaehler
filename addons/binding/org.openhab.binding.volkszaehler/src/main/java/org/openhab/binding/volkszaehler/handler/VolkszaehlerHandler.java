@@ -122,35 +122,38 @@ public class VolkszaehlerHandler extends BaseThingHandler implements SQLReaderLi
         updateState(CHANNEL_POWER_CURRENT_BUY, mySqlReader.power.getBuy());
         updateState(CHANNEL_POWER_CURRENT_SELL, mySqlReader.power.getSell());
 
-        updateState(CHANNEL_ENERGY_MONTH1_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.JANUARY));
-        updateState(CHANNEL_ENERGY_MONTH2_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.FEBRUARY));
-        updateState(CHANNEL_ENERGY_MONTH3_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.MARCH));
-        updateState(CHANNEL_ENERGY_MONTH4_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.APRIL));
-        updateState(CHANNEL_ENERGY_MONTH5_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.MAY));
-        updateState(CHANNEL_ENERGY_MONTH6_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.JUNE));
-        updateState(CHANNEL_ENERGY_MONTH7_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.JULY));
-        updateState(CHANNEL_ENERGY_MONTH8_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.AUGUST));
-        updateState(CHANNEL_ENERGY_MONTH9_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.SEPTEMBER));
-        updateState(CHANNEL_ENERGY_MONTH10_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.OCTOBER));
-        updateState(CHANNEL_ENERGY_MONTH11_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.NOVEMBER));
-        updateState(CHANNEL_ENERGY_MONTH12_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.DECEMBER));
+        updateState(CHANNEL_ENERGY_JANUARY_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.JANUARY));
+        updateState(CHANNEL_ENERGY_FEBRUARY_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.FEBRUARY));
+        updateState(CHANNEL_ENERGY_MARCH_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.MARCH));
+        updateState(CHANNEL_ENERGY_APRIL_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.APRIL));
+        updateState(CHANNEL_ENERGY_MAY_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.MAY));
+        updateState(CHANNEL_ENERGY_JUNE_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.JUNE));
+        updateState(CHANNEL_ENERGY_JULY_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.JULY));
+        updateState(CHANNEL_ENERGY_AUGUST_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.AUGUST));
+        updateState(CHANNEL_ENERGY_SEPTEMBER_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.SEPTEMBER));
+        updateState(CHANNEL_ENERGY_OCTOBER_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.OCTOBER));
+        updateState(CHANNEL_ENERGY_NOVEMBER_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.NOVEMBER));
+        updateState(CHANNEL_ENERGY_DECEMBER_ATTIC, mySqlReader.energyAttic.getEnergyMonth(Month.DECEMBER));
+
+        updateState(CHANNEL_ENERGY_JANUARY_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.JANUARY));
+        updateState(CHANNEL_ENERGY_FEBRUARY_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.FEBRUARY));
+        updateState(CHANNEL_ENERGY_MARCH_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.MARCH));
+        updateState(CHANNEL_ENERGY_APRIL_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.APRIL));
+        updateState(CHANNEL_ENERGY_MAY_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.MAY));
+        updateState(CHANNEL_ENERGY_JUNE_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.JUNE));
+        updateState(CHANNEL_ENERGY_JULY_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.JULY));
+        updateState(CHANNEL_ENERGY_AUGUST_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.AUGUST));
+        updateState(CHANNEL_ENERGY_SEPTEMBER_GROUNDFLOOR,
+                mySqlReader.energyGroundfloor.getEnergyMonth(Month.SEPTEMBER));
+        updateState(CHANNEL_ENERGY_OCTOBER_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.OCTOBER));
+        updateState(CHANNEL_ENERGY_NOVEMBER_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.NOVEMBER));
+        updateState(CHANNEL_ENERGY_DECEMBER_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.DECEMBER));
+
         updateState(CHANNEL_ENERGY_MONTH_CURRENT_ATTIC, mySqlReader.energyAttic.getEnergyCurrentMonth());
         updateState(CHANNEL_ENERGY_YEAR_CURRENT_ATTIC, mySqlReader.energyAttic.getEnergyCurrentYear());
         updateState(CHANNEL_ENERGY_PERCENTAGE_SHARE_YEAR_ATTIC, mySqlReader.energyAttic
                 .getEnergyPercentageShareYear(mySqlReader.energyGroundfloor.getEnergyCurrentYear()));
 
-        updateState(CHANNEL_ENERGY_MONTH1_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.JANUARY));
-        updateState(CHANNEL_ENERGY_MONTH2_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.FEBRUARY));
-        updateState(CHANNEL_ENERGY_MONTH3_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.MARCH));
-        updateState(CHANNEL_ENERGY_MONTH4_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.APRIL));
-        updateState(CHANNEL_ENERGY_MONTH5_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.MAY));
-        updateState(CHANNEL_ENERGY_MONTH6_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.JUNE));
-        updateState(CHANNEL_ENERGY_MONTH7_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.JULY));
-        updateState(CHANNEL_ENERGY_MONTH8_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.AUGUST));
-        updateState(CHANNEL_ENERGY_MONTH9_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.SEPTEMBER));
-        updateState(CHANNEL_ENERGY_MONTH10_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.OCTOBER));
-        updateState(CHANNEL_ENERGY_MONTH11_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.NOVEMBER));
-        updateState(CHANNEL_ENERGY_MONTH12_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyMonth(Month.DECEMBER));
         updateState(CHANNEL_ENERGY_MONTH_CURRENT_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyCurrentMonth());
         updateState(CHANNEL_ENERGY_YEAR_CURRENT_GROUNDFLOOR, mySqlReader.energyGroundfloor.getEnergyCurrentYear());
         updateState(CHANNEL_ENERGY_PERCENTAGE_SHARE_YEAR_GROUNDFLOOR, mySqlReader.energyGroundfloor

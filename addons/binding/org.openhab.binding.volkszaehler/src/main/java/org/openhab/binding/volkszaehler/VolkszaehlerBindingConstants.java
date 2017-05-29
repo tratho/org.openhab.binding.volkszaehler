@@ -50,36 +50,37 @@ public class VolkszaehlerBindingConstants {
     public static final String CHANNEL_POWER_CURRENT_BUY = "currentPowerBuy";
     public static final String CHANNEL_POWER_CURRENT_SELL = "currentPowerSell";
 
-    public static final String CHANNEL_ENERGY_MONTH1_ATTIC = "energyJanuaryAttic";
-    public static final String CHANNEL_ENERGY_MONTH2_ATTIC = "energyFebruaryAttic";
-    public static final String CHANNEL_ENERGY_MONTH3_ATTIC = "energyMarchAttic";
-    public static final String CHANNEL_ENERGY_MONTH4_ATTIC = "energyAprilAttic";
-    public static final String CHANNEL_ENERGY_MONTH5_ATTIC = "energyMayAttic";
-    public static final String CHANNEL_ENERGY_MONTH6_ATTIC = "energyJuneAttic";
-    public static final String CHANNEL_ENERGY_MONTH7_ATTIC = "energyJulyAttic";
-    public static final String CHANNEL_ENERGY_MONTH8_ATTIC = "energyAugustAttic";
-    public static final String CHANNEL_ENERGY_MONTH9_ATTIC = "energySeptemberAttic";
-    public static final String CHANNEL_ENERGY_MONTH10_ATTIC = "energyOctoberAttic";
-    public static final String CHANNEL_ENERGY_MONTH11_ATTIC = "energyNovemberAttic";
-    public static final String CHANNEL_ENERGY_MONTH12_ATTIC = "energyDecemberAttic";
+    public static final String CHANNEL_ENERGY_JANUARY_ATTIC = "energyJanuaryAttic";
+    public static final String CHANNEL_ENERGY_FEBRUARY_ATTIC = "energyFebruaryAttic";
+    public static final String CHANNEL_ENERGY_MARCH_ATTIC = "energyMarchAttic";
+    public static final String CHANNEL_ENERGY_APRIL_ATTIC = "energyAprilAttic";
+    public static final String CHANNEL_ENERGY_MAY_ATTIC = "energyMayAttic";
+    public static final String CHANNEL_ENERGY_JUNE_ATTIC = "energyJuneAttic";
+    public static final String CHANNEL_ENERGY_JULY_ATTIC = "energyJulyAttic";
+    public static final String CHANNEL_ENERGY_AUGUST_ATTIC = "energyAugustAttic";
+    public static final String CHANNEL_ENERGY_SEPTEMBER_ATTIC = "energySeptemberAttic";
+    public static final String CHANNEL_ENERGY_OCTOBER_ATTIC = "energyOctoberAttic";
+    public static final String CHANNEL_ENERGY_NOVEMBER_ATTIC = "energyNovemberAttic";
+    public static final String CHANNEL_ENERGY_DECEMBER_ATTIC = "energyDecemberAttic";
+
+    public static final String CHANNEL_ENERGY_JANUARY_GROUNDFLOOR = "energyJanuaryGroundfloor";
+    public static final String CHANNEL_ENERGY_FEBRUARY_GROUNDFLOOR = "energyFebruaryGroundfloor";
+    public static final String CHANNEL_ENERGY_MARCH_GROUNDFLOOR = "energyMarchGroundfloor";
+    public static final String CHANNEL_ENERGY_APRIL_GROUNDFLOOR = "energyAprilGroundfloor";
+    public static final String CHANNEL_ENERGY_MAY_GROUNDFLOOR = "energyMayGroundfloor";
+    public static final String CHANNEL_ENERGY_JUNE_GROUNDFLOOR = "energyJuneGroundfloor";
+    public static final String CHANNEL_ENERGY_JULY_GROUNDFLOOR = "energyJulyGroundfloor";
+    public static final String CHANNEL_ENERGY_AUGUST_GROUNDFLOOR = "energyAugustGroundfloor";
+    public static final String CHANNEL_ENERGY_SEPTEMBER_GROUNDFLOOR = "energySeptemberGroundfloor";
+    public static final String CHANNEL_ENERGY_OCTOBER_GROUNDFLOOR = "energyOctoberGroundfloor";
+    public static final String CHANNEL_ENERGY_NOVEMBER_GROUNDFLOOR = "energyNovemberGroundfloor";
+    public static final String CHANNEL_ENERGY_DECEMBER_GROUNDFLOOR = "energyDecemberGroundfloor";
+
     public static final String CHANNEL_ENERGY_MONTH_CURRENT_ATTIC = "energyCurrentMonthAttic";
     public static final String CHANNEL_ENERGY_YEAR_CURRENT_ATTIC = "energyCurrentYearAttic";
     public static final String CHANNEL_ENERGY_PERCENTAGE_SHARE_YEAR_ATTIC = "energyPercentageShareYearAttic";
 
-    public static final String CHANNEL_ENERGY_MONTH1_GROUNDFLOOR = "energyJanuaryGroundfloor";
-    public static final String CHANNEL_ENERGY_MONTH2_GROUNDFLOOR = "energyFebruaryGroundfloor";
-    public static final String CHANNEL_ENERGY_MONTH3_GROUNDFLOOR = "energyMarchGroundfloor";
-    public static final String CHANNEL_ENERGY_MONTH4_GROUNDFLOOR = "energyAprilGroundfloor";
-    public static final String CHANNEL_ENERGY_MONTH5_GROUNDFLOOR = "energyMayGroundfloor";
-    public static final String CHANNEL_ENERGY_MONTH6_GROUNDFLOOR = "energyJuneGroundfloor";
-    public static final String CHANNEL_ENERGY_MONTH7_GROUNDFLOOR = "energyJulyGroundfloor";
-    public static final String CHANNEL_ENERGY_MONTH8_GROUNDFLOOR = "energyAugustGroundfloor";
-    public static final String CHANNEL_ENERGY_MONTH9_GROUNDFLOOR = "energySeptemberGroundfloor";
-    public static final String CHANNEL_ENERGY_MONTH10_GROUNDFLOOR = "energyOctoberGroundfloor";
-    public static final String CHANNEL_ENERGY_MONTH11_GROUNDFLOOR = "energyNovemberGroundfloor";
-    public static final String CHANNEL_ENERGY_MONTH12_GROUNDFLOOR = "energyDecemberGroundfloor";
     public static final String CHANNEL_ENERGY_MONTH_CURRENT_GROUNDFLOOR = "energyCurrentMonthGroundfloor";
     public static final String CHANNEL_ENERGY_YEAR_CURRENT_GROUNDFLOOR = "energyCurrentYearGroundfloor";
     public static final String CHANNEL_ENERGY_PERCENTAGE_SHARE_YEAR_GROUNDFLOOR = "energyPercentageShareYearGroundfloor";
-
 }

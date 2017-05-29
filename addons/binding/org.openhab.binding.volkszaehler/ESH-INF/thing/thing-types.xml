@@ -1,237 +1,368 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<thing:thing-descriptions bindingId="volkszaehler"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
-        xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0 http://eclipse.org/smarthome/schemas/thing-description-1.0.0.xsd">
+<thing:thing-descriptions bindingId="volkszaehler" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0 http://eclipse.org/smarthome/schemas/thing-description-1.0.0.xsd">
 
-    <thing-type id="device">
-        <label>Volkszaehler Binding</label>
-        <description>Represents a Volkszaehler</description>
+	<thing-type id="device">
+		<label>Volkszaehler Binding</label>
+		<description>Represents a Volkszaehler</description>
 
-        <channels>
-            <channel id="bufferTemperatureAverage" typeId="bufferTemperatureAverage"/>
-            <channel id="bufferTemperatureBottom" typeId="bufferTemperatureBottom"/>
-            <channel id="bufferTemperatureMiddle" typeId="bufferTemperatureMiddle"/>
-            <channel id="bufferTemperatureTop" typeId="bufferTemperatureTop"/>
-            
-            <channel id="hotWaterTemperature" typeId="hotWaterTemperature"/>
-            
-            <channel id="gasConsumption" typeId="gasConsumption"/>
-            <channel id="gastothermRunning" typeId="gastothermRunning"/>
-            
-            <channel id="gasConsumptionCurrentMonth" typeId="gasConsumptionCurrentMonth"/>
-            <channel id="gasConsumptionCurrentYear" typeId="gasConsumptionCurrentYear"/>
-            
-            <channel id="currentPowerAttic" typeId="currentPowerAttic"/>
-            <channel id="currentPowerGroundfloor" typeId="currentPowerGroundfloor"/>
-            <channel id="currentPowerTotal" typeId="currentPowerTotal"/>
-            <channel id="currentPowerPhotovoltaic" typeId="currentPowerPhotovoltaic"/>
-            <channel id="currentPowerBuy" typeId="currentPowerBuy"/>
-            <channel id="currentPowerSell" typeId="currentPowerSell"/>
-            
-            <channel id="energyCurrentMonthAttic" typeId="energyCurrentMonthAttic"/>
-            <channel id="energyCurrentMonthGroundfloor" typeId="energyCurrentMonthGroundfloor"/>
-            
-            <channel id="energyCurrentYearAttic" typeId="energyCurrentYearAttic"/>
-            <channel id="energyCurrentYearGroundfloor" typeId="energyCurrentYearGroundfloor"/>
-            
-            <channel id="energyPercentageShareYearAttic" typeId="energyPercentageShareYearAttic"/>
-            <channel id="energyPercentageShareYearGroundfloor" typeId="energyPercentageShareYearGroundfloor"/>
-            
-            <channel id="energyJanuaryAttic" typeId="energyMonthAttic"/>
-            <channel id="energyFebruaryAttic" typeId="energyMonthAttic"/>
-            <channel id="energyMarchAttic" typeId="energyMonthAttic"/>
-            <channel id="energyAprilAttic" typeId="energyMonthAttic"/>
-            <channel id="energyMayAttic" typeId="energyMonthAttic"/>
-            <channel id="energyJuneAttic" typeId="energyMonthAttic"/>
-            <channel id="energyJulyAttic" typeId="energyMonthAttic"/>
-            <channel id="energyAugustAttic" typeId="energyMonthAttic"/>
-            <channel id="energySeptemberAttic" typeId="energyMonthAttic"/>
-            <channel id="energyOctoberAttic" typeId="energyMonthAttic"/>
-            <channel id="energyNovemberAttic" typeId="energyMonthAttic"/>
-            <channel id="energyDecemberAttic" typeId="energyMonthAttic"/>
-            
-            <channel id="energyJanuaryGroundfloor" typeId="energyMonthGroundfloor"/>
-            <channel id="energyFebruaryGroundfloor" typeId="energyMonthGroundfloor"/>
-            <channel id="energyMarchGroundfloor" typeId="energyMonthGroundfloor"/>
-            <channel id="energyAprilGroundfloor" typeId="energyMonthGroundfloor"/>
-            <channel id="energyMayGroundfloor" typeId="energyMonthGroundfloor"/>
-            <channel id="energyJuneGroundfloor" typeId="energyMonthGroundfloor"/>
-            <channel id="energyJulyGroundfloor" typeId="energyMonthGroundfloor"/>
-            <channel id="energyAugustGroundfloor" typeId="energyMonthGroundfloor"/>
-            <channel id="energySeptemberGroundfloor" typeId="energyMonthGroundfloor"/>
-            <channel id="energyOctoberGroundfloor" typeId="energyMonthGroundfloor"/>
-            <channel id="energyNovemberGroundfloor" typeId="energyMonthGroundfloor"/>
-            <channel id="energyDecemberGroundfloor" typeId="energyMonthGroundfloor"/>
-        </channels>
-        <config-description>
-            <parameter name="DEVICE_HOST" type="text" required="true">
-                <label>Host Address</label>
-                <description>The Host / IP Address used for communication to this device</description>
-            </parameter>
-            <parameter name="DEVICE_DB_NAME" type="text" required="true">
-                <label>Database Name</label>
-                <description>The name of sql database</description>
-            </parameter>
-            <parameter name="DEVICE_USER_NAME" type="text" required="true">
-                <label>User Name</label>
-                <description>The username for sql database</description>
-            </parameter>
-            <parameter name="DEVICE_PASSWORD" type="text" required="true">
-                <label>Password</label>
-                <description>The password for sql database</description>
-            </parameter>
-            <parameter name="REFRESH_INTERVAL" type="integer" required="true">
-                <label>Refresh interval</label>
-                <description>Time for autoupdate in minutes</description>
-            </parameter>
-        </config-description>
-    </thing-type>
+		<channels>
+			<channel id="bufferTemperatureAverage" typeId="bufferTemperatureAverage" />
+			<channel id="bufferTemperatureBottom" typeId="bufferTemperatureBottom" />
+			<channel id="bufferTemperatureMiddle" typeId="bufferTemperatureMiddle" />
+			<channel id="bufferTemperatureTop" typeId="bufferTemperatureTop" />
 
-    <channel-type id="bufferTemperatureAverage">
+			<channel id="hotWaterTemperature" typeId="hotWaterTemperature" />
+
+			<channel id="gasConsumption" typeId="gasConsumption" />
+			<channel id="gastothermRunning" typeId="gastothermRunning" />
+
+			<channel id="gasConsumptionCurrentMonth" typeId="gasConsumptionCurrentMonth" />
+			<channel id="gasConsumptionCurrentYear" typeId="gasConsumptionCurrentYear" />
+
+			<channel id="currentPowerAttic" typeId="currentPowerAttic" />
+			<channel id="currentPowerGroundfloor" typeId="currentPowerGroundfloor" />
+			<channel id="currentPowerTotal" typeId="currentPowerTotal" />
+			<channel id="currentPowerPhotovoltaic" typeId="currentPowerPhotovoltaic" />
+			<channel id="currentPowerBuy" typeId="currentPowerBuy" />
+			<channel id="currentPowerSell" typeId="currentPowerSell" />
+
+			<channel id="energyCurrentMonthAttic" typeId="energyCurrentMonthAttic" />
+			<channel id="energyCurrentMonthGroundfloor" typeId="energyCurrentMonthGroundfloor" />
+
+			<channel id="energyCurrentYearAttic" typeId="energyCurrentYearAttic" />
+			<channel id="energyCurrentYearGroundfloor" typeId="energyCurrentYearGroundfloor" />
+
+			<channel id="energyPercentageShareYearAttic" typeId="energyPercentageShareYearAttic" />
+			<channel id="energyPercentageShareYearGroundfloor" typeId="energyPercentageShareYearGroundfloor" />
+
+			<channel id="energyJanuaryAttic" typeId="energyMonth1Attic" />
+			<channel id="energyFebruaryAttic" typeId="energyMonth2Attic" />
+			<channel id="energyMarchAttic" typeId="energyMonth3Attic" />
+			<channel id="energyAprilAttic" typeId="energyMonth4Attic" />
+			<channel id="energyMayAttic" typeId="energyMonth5Attic" />
+			<channel id="energyJuneAttic" typeId="energyMonth6Attic" />
+			<channel id="energyJulyAttic" typeId="energyMonth7Attic" />
+			<channel id="energyAugustAttic" typeId="energyMonth8Attic" />
+			<channel id="energySeptemberAttic" typeId="energyMonth9Attic" />
+			<channel id="energyOctoberAttic" typeId="energyMonth10Attic" />
+			<channel id="energyNovemberAttic" typeId="energyMonth11Attic" />
+			<channel id="energyDecemberAttic" typeId="energyMonth12Attic" />
+
+			<channel id="energyJanuaryGroundfloor" typeId="energyMonth1Groundfloor" />
+			<channel id="energyFebruaryGroundfloor" typeId="energyMonth2Groundfloor" />
+			<channel id="energyMarchGroundfloor" typeId="energyMonth3Groundfloor" />
+			<channel id="energyAprilGroundfloor" typeId="energyMonth4Groundfloor" />
+			<channel id="energyMayGroundfloor" typeId="energyMonth5Groundfloor" />
+			<channel id="energyJuneGroundfloor" typeId="energyMonth6Groundfloor" />
+			<channel id="energyJulyGroundfloor" typeId="energyMonth7Groundfloor" />
+			<channel id="energyAugustGroundfloor" typeId="energyMonth8Groundfloor" />
+			<channel id="energySeptemberGroundfloor" typeId="energyMonth9Groundfloor" />
+			<channel id="energyOctoberGroundfloor" typeId="energyMonth10Groundfloor" />
+			<channel id="energyNovemberGroundfloor" typeId="energyMonth11Groundfloor" />
+			<channel id="energyDecemberGroundfloor" typeId="energyMonth12Groundfloor" />
+		</channels>
+		<config-description>
+			<parameter name="DEVICE_HOST" type="text" required="true">
+				<label>Host Address</label>
+				<description>The Host / IP Address used for communication to this device</description>
+			</parameter>
+			<parameter name="DEVICE_DB_NAME" type="text" required="true">
+				<label>Database Name</label>
+				<description>The name of sql database</description>
+			</parameter>
+			<parameter name="DEVICE_USER_NAME" type="text" required="true">
+				<label>User Name</label>
+				<description>The username for sql database</description>
+			</parameter>
+			<parameter name="DEVICE_PASSWORD" type="text" required="true">
+				<label>Password</label>
+				<description>The password for sql database</description>
+			</parameter>
+			<parameter name="REFRESH_INTERVAL" type="integer" required="true">
+				<label>Refresh interval</label>
+				<description>Time for autoupdate in minutes</description>
+			</parameter>
+		</config-description>
+	</thing-type>
+
+	<channel-type id="bufferTemperatureAverage">
+		<item-type>Number</item-type>
+		<label>Buffer Temperature Average</label>
+		<description>Average Temperature of the Buffer</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="bufferTemperatureBottom">
+		<item-type>Number</item-type>
+		<label>Buffer Temperature Position Bottom</label>
+		<description>Temperature of the Buffer on Position Bottom</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="bufferTemperatureMiddle">
+		<item-type>Number</item-type>
+		<label>Buffer Temperature Position Middle</label>
+		<description>Temperature of the Buffer on Position Middle</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="bufferTemperatureTop">
+		<item-type>Number</item-type>
+		<label>Buffer Temperature Position Top</label>
+		<description>Temperature of the Buffer on Position Top</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="hotWaterTemperature">
+		<item-type>Number</item-type>
+		<label>Hot Water Temperature</label>
+		<description>Temperature of the Hot Water</description>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="gasConsumption">
+		<item-type>Number</item-type>
+		<label>Gas consumption</label>
+		<description>Current gas consumption</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="gastothermRunning">
+		<item-type>Switch</item-type>
+		<label>Gastotherm Running</label>
+		<description>Current State of the Gastotherm</description>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="gasConsumptionCurrentMonth">
+		<item-type>Number</item-type>
+		<label>Gas Consumption current Month</label>
+		<description>Gas Consumption in current month</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="gasConsumptionCurrentYear">
+		<item-type>Number</item-type>
+		<label>Gas Consumption current Year</label>
+		<description>Gas Consumption in current year</description>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="currentPowerAttic">
+		<item-type>Number</item-type>
+		<label>Current Power Attic</label>
+		<description>Current Power used in Attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="currentPowerGroundfloor">
+		<item-type>Number</item-type>
+		<label>Current Power Groundfloor</label>
+		<description>Current Power used in Groundfloor</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="currentPowerTotal">
+		<item-type>Number</item-type>
+		<label>Current Power Total</label>
+		<description>Current Power used in Attic and Groundfloor</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="currentPowerPhotovoltaic">
+		<item-type>Number</item-type>
+		<label>Current Power Photovoltaic</label>
+		<description>Current Power from Photovoltaic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="currentPowerBuy">
+		<item-type>Number</item-type>
+		<label>Current Power Buy</label>
+		<description>Current Power that gets bought</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="currentPowerSell">
+		<item-type>Number</item-type>
+		<label>Current Power Sell</label>
+		<description>Current Power that gets sold</description>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="energyCurrentMonthAttic">
+		<item-type>Number</item-type>
+		<label>Energy current Month Attic</label>
+		<description>Energy used in current month in attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="energyCurrentMonthGroundfloor">
+		<item-type>Number</item-type>
+		<label>Energy current Month Groundfloor</label>
+		<description>Energy used in current month in groundfloor</description>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="energyCurrentYearAttic">
+		<item-type>Number</item-type>
+		<label>Energy current Year Attic</label>
+		<description>Energy used in current year in attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="energyCurrentYearGroundfloor">
+		<item-type>Number</item-type>
+		<label>Energy current Year Groundfloor</label>
+		<description>Energy used in current year in groundfloor</description>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="energyPercentageShareYearAttic">
+		<item-type>Number</item-type>
+		<label>Energy Percentage Share Year Attic</label>
+		<description>Energy percentage share in attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="energyPercentageShareYearGroundfloor">
+		<item-type>Number</item-type>
+		<label>Energy Percentage Share Year Groundfloor</label>
+		<description>Energy percentage share in groundfloor</description>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="energyMonth1Attic">
+		<item-type>Number</item-type>
+		<label>Energy January Attic</label>
+		<description>Energy used in January in attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="energyMonth2Attic">
+		<item-type>Number</item-type>
+		<label>Energy February Attic</label>
+		<description>Energy used in February in attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="energyMonth3Attic">
+		<item-type>Number</item-type>
+		<label>Energy March Attic</label>
+		<description>Energy used in March in attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="energyMonth4Attic">
+		<item-type>Number</item-type>
+		<label>Energy April Attic</label>
+		<description>Energy used in April in attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="energyMonth5Attic">
+		<item-type>Number</item-type>
+		<label>Energy May Attic</label>
+		<description>Energy used in May in attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="energyMonth6Attic">
+		<item-type>Number</item-type>
+		<label>Energy June Attic</label>
+		<description>Energy used in June in attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="energyMonth7Attic">
+		<item-type>Number</item-type>
+		<label>Energy July Attic</label>
+		<description>Energy used in July in attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="energyMonth8Attic">
+		<item-type>Number</item-type>
+		<label>Energy August Attic</label>
+		<description>Energy used in August in attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="energyMonth9Attic">
+		<item-type>Number</item-type>
+		<label>Energy September Attic</label>
+		<description>Energy used in September in attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="energyMonth10Attic">
+		<item-type>Number</item-type>
+		<label>Energy October Attic</label>
+		<description>Energy used in October in attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="energyMonth11Attic">
+		<item-type>Number</item-type>
+		<label>Energy November Attic</label>
+		<description>Energy used in November in attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	<channel-type id="energyMonth12Attic">
+		<item-type>Number</item-type>
+		<label>Energy December Attic</label>
+		<description>Energy used in December in attic</description>
+		<state readOnly="true" />
+	</channel-type>
+	
+	<channel-type id="energyMonth1Groundfloor">
         <item-type>Number</item-type>
-        <label>Buffer Temperature Average</label>
-        <description>Average Temperature of the Buffer</description>
+        <label>Energy January Groundfloor</label>
+        <description>Energy used in January in groundfloor</description>
         <state readOnly="true" />
     </channel-type>
-    <channel-type id="bufferTemperatureBottom">
+    <channel-type id="energyMonth2Groundfloor">
         <item-type>Number</item-type>
-        <label>Buffer Temperature Position Bottom</label>
-        <description>Temperature of the Buffer on Position Bottom</description>
-        <state readOnly="true" />
-    </channel-type>    
-    <channel-type id="bufferTemperatureMiddle">
-        <item-type>Number</item-type>
-        <label>Buffer Temperature Position Middle</label>
-        <description>Temperature of the Buffer on Position Middle</description>
+        <label>Energy February Groundfloor</label>
+        <description>Energy used in February in groundfloor</description>
         <state readOnly="true" />
     </channel-type>
-    <channel-type id="bufferTemperatureTop">
+    <channel-type id="energyMonth3Groundfloor">
         <item-type>Number</item-type>
-        <label>Buffer Temperature Position Top</label>
-        <description>Temperature of the Buffer on Position Top</description>
+        <label>Energy March Groundfloor</label>
+        <description>Energy used in March in groundfloor</description>
         <state readOnly="true" />
     </channel-type>
-    <channel-type id="hotWaterTemperature">
+    <channel-type id="energyMonth4Groundfloor">
         <item-type>Number</item-type>
-        <label>Hot Water Temperature</label>
-        <description>Temperature of the Hot Water</description>
+        <label>Energy April Groundfloor</label>
+        <description>Energy used in April in groundfloor</description>
         <state readOnly="true" />
     </channel-type>
-    
-    <channel-type id="gasConsumption">
+    <channel-type id="energyMonth5Groundfloor">
         <item-type>Number</item-type>
-        <label>Gas consumption</label>
-        <description>Current gas consumption</description>
+        <label>Energy May Groundfloor</label>
+        <description>Energy used in May in groundfloor</description>
         <state readOnly="true" />
     </channel-type>
-    <channel-type id="gastothermRunning">
-        <item-type>Switch</item-type>
-        <label>Gastotherm Running</label>
-        <description>Current State of the Gastotherm</description>
-        <state readOnly="true" />
-    </channel-type>
-    
-     <channel-type id="gasConsumptionCurrentMonth">
+    <channel-type id="energyMonth6Groundfloor">
         <item-type>Number</item-type>
-        <label>Gas Consumption current Month</label>
-        <description>Gas Consumption in current month</description>
+        <label>Energy June Groundfloor</label>
+        <description>Energy used in June in groundfloor</description>
         <state readOnly="true" />
     </channel-type>
-     <channel-type id="gasConsumptionCurrentYear">
+    <channel-type id="energyMonth7Groundfloor">
         <item-type>Number</item-type>
-        <label>Gas Consumption current Year</label>
-        <description>Gas Consumption in current year</description>
+        <label>Energy July Groundfloor</label>
+        <description>Energy used in July in groundfloor</description>
         <state readOnly="true" />
     </channel-type>
-    
-    <channel-type id="currentPowerAttic">
+    <channel-type id="energyMonth8Groundfloor">
         <item-type>Number</item-type>
-        <label>Current Power Attic</label>
-        <description>Current Power used in Attic</description>
+        <label>Energy August Groundfloor</label>
+        <description>Energy used in August in groundfloor</description>
         <state readOnly="true" />
     </channel-type>
-    <channel-type id="currentPowerGroundfloor">
+    <channel-type id="energyMonth9Groundfloor">
         <item-type>Number</item-type>
-        <label>Current Power Groundfloor</label>
-        <description>Current Power used in Groundfloor</description>
+        <label>Energy September Groundfloor</label>
+        <description>Energy used in September in groundfloor</description>
         <state readOnly="true" />
     </channel-type>
-    <channel-type id="currentPowerTotal">
+    <channel-type id="energyMonth10Groundfloor">
         <item-type>Number</item-type>
-        <label>Current Power Total</label>
-        <description>Current Power used in Attic and Groundfloor</description>
+        <label>Energy October Groundfloor</label>
+        <description>Energy used in October in groundfloor</description>
         <state readOnly="true" />
     </channel-type>
-    <channel-type id="currentPowerPhotovoltaic">
+    <channel-type id="energyMonth11Groundfloor">
         <item-type>Number</item-type>
-        <label>Current Power Photovoltaic</label>
-        <description>Current Power from Photovoltaic</description>
+        <label>Energy November Groundfloor</label>
+        <description>Energy used in November in groundfloor</description>
         <state readOnly="true" />
     </channel-type>
-    <channel-type id="currentPowerBuy">
+    <channel-type id="energyMonth12Groundfloor">
         <item-type>Number</item-type>
-        <label>Current Power Buy</label>
-        <description>Current Power that gets bought</description>
+        <label>Energy December Groundfloor</label>
+        <description>Energy used in December in groundfloor</description>
         <state readOnly="true" />
     </channel-type>
-    <channel-type id="currentPowerSell">
-        <item-type>Number</item-type>
-        <label>Current Power Sell</label>
-        <description>Current Power that gets sold</description>
-        <state readOnly="true" />
-    </channel-type>
-    
-    <channel-type id="energyCurrentMonthAttic">
-        <item-type>Number</item-type>
-        <label>Energy current Month Attic</label>
-        <description>Energy used in current month in attic</description>
-        <state readOnly="true" />
-    </channel-type>
-    <channel-type id="energyCurrentMonthGroundfloor">
-        <item-type>Number</item-type>
-        <label>Energy current Month Groundfloor</label>
-        <description>Energy used in current month in groundfloor</description>
-        <state readOnly="true" />
-    </channel-type>
-    
-    <channel-type id="energyCurrentYearAttic">
-        <item-type>Number</item-type>
-        <label>Energy current Year Attic</label>
-        <description>Energy used in current year in attic</description>
-        <state readOnly="true" />
-    </channel-type>
-    <channel-type id="energyCurrentYearGroundfloor">
-        <item-type>Number</item-type>
-        <label>Energy current Year Groundfloor</label>
-        <description>Energy used in current year in groundfloor</description>
-        <state readOnly="true" />
-    </channel-type>
-    
-     <channel-type id="energyPercentageShareYearAttic">
-        <item-type>Number</item-type>
-        <label>Energy Percentage Share Year Attic</label>
-        <description>Energy percentage share in attic</description>
-        <state readOnly="true" />
-    </channel-type>
-    <channel-type id="energyPercentageShareYearGroundfloor">
-        <item-type>Number</item-type>
-        <label>Energy Percentage Share Year Groundfloor</label>
-        <description>Energy percentage share in groundfloor</description>
-        <state readOnly="true" />
-    </channel-type>
-    
-     <channel-type id="energyMonthAttic">
-        <item-type>Number</item-type>
-        <label>Energy Month Attic</label>
-        <description>Energy used in month in attic</description>
-        <state readOnly="true" />
-    </channel-type>
-    <channel-type id="energyMonthGroundfloor">
-        <item-type>Number</item-type>
-        <label>Energy Month Groundfloor</label>
-        <description>Energy used in month in groundfloor</description>
-        <state readOnly="true" />
-    </channel-type>
-    
 </thing:thing-descriptions>
