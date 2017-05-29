@@ -8,7 +8,10 @@
  */
 package org.openhab.binding.volkszaehler.internal;
 
+import java.time.Month;
 import java.util.Calendar;
+
+import org.eclipse.smarthome.core.library.types.DateTimeType;
 
 /**
  * The {@link Time}
@@ -27,7 +30,7 @@ public class Time {
     }
 
     public Time(String dateAndTime) {
-        StringBuffer temp = new StringBuffer();
+        StringBuilder temp = new StringBuilder();
         temp.append(dateAndTime);
         while (temp.indexOf("\"") >= 0) {
             temp.delete(temp.indexOf("\""), temp.indexOf("\"") + 1);
@@ -63,10 +66,10 @@ public class Time {
         return date.get(Calendar.YEAR);
     }
 
-    public int getMonth() {
+    public Month getMonth() {
         Calendar date = Calendar.getInstance();
         date.setTimeInMillis(this.timeInMilliseconds);
-        return date.get(Calendar.MONTH) + 1;
+        return Month.of(date.get(Calendar.MONTH) + 1);
     }
 
     public int getDay() {
@@ -107,19 +110,25 @@ public class Time {
         return this.timeInMilliseconds;
     }
 
+    public DateTimeType getDateTimeType() {
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(timeInMilliseconds);
+        return new DateTimeType(date);
+    }
+
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         buffer.append("\"");
 
         buffer.append(getYear());
         buffer.append("-");
 
-        if (getMonth() < 10) {
+        if (getMonth().getValue() < 10) {
             buffer.append("0");
         }
-        buffer.append(getMonth());
+        buffer.append(getMonth().getValue());
 
         buffer.append("-");
 
